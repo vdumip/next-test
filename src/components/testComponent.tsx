@@ -1,13 +1,17 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { fetchTestData } from 'services/apiService';
+import { Post } from "types/Post";
 
-export default function TestPage() {
-    const [data, setData] = useState([]);
-    const [error, setError] = useState(null);
+export default function TestComponent() {
+    const [data, setData] = useState<Post[]>([]);
+    const [error, setError] = useState<Error | null>(null);
+
 
     useEffect(() => {
         fetchTestData()
-            .then(setData)
+            .then((data: Post[]) => setData(data))
             .catch(setError);
     }, []);
 
@@ -20,7 +24,7 @@ export default function TestPage() {
         <div>
             <h1>Test Data</h1>
             <ul>
-                {data.map((item: any) => (
+                {data.map((item: Post) => (
                     <li key={item.id}>{item.title}</li>
                 ))}
             </ul>
